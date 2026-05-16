@@ -10,9 +10,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Build Pillow layer (using Docker lambci image)
+      - name: Build Pillow layer (using AWS SAM build image)
         run: |
-          docker run --rm -v "$PWD":/var/task lambci/lambda:build-python3.9 /bin/bash -lc "python -m pip install --upgrade pip && pip install -r requirements.txt -t python --upgrade && chmod -R a+r python"
+          docker run --rm -v "$PWD":/var/task public.ecr.aws/sam/build-python3.9:latest /bin/bash -lc "python -m pip install --upgrade pip && pip install -r requirements.txt -t python --upgrade && chmod -R a+r python"
           zip -r pillow_layer_py3.9.zip python
 
       - name: Upload layer zip
