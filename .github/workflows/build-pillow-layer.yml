@@ -12,11 +12,11 @@ jobs:
 
       - name: Build Pillow layer (using AWS SAM build image)
         run: |
-          docker run --rm -v "$PWD":/var/task public.ecr.aws/sam/build-python3.9:latest /bin/bash -lc "python -m pip install --upgrade pip && pip install -r requirements.txt -t python --upgrade && chmod -R a+r python"
-          zip -r pillow_layer_py3.9.zip python
+          docker run --rm -v "$PWD":/var/task public.ecr.aws/sam/build-python3.12:latest /bin/bash -lc "python -m pip install --upgrade pip && pip install -r requirements.txt -t python --upgrade && chmod -R a+r python"
+          zip -r pillow_layer_py3.12.zip python
 
       - name: Upload layer zip
         uses: actions/upload-artifact@v4
         with:
-          name: pillow_layer_py3.9.zip
-          path: pillow_layer_py3.9.zip
+          name: pillow_layer_py3.12.zip
+          path: pillow_layer_py3.12.zip
