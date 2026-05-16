@@ -1,0 +1,22 @@
+name: Build Pillow Layer
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Pillow layer (using Docker lambci image)
+        run: |
+          docker run --rm -v "$PWD":/var/task lambci/lambda:build-python3.9 /bin/bash -lc "python -m pip install --upgrade pip && pip install -r requirements.txt -t python --upgrade && chmod -R a+r python"
+          zip -r pillow_layer_py3.9.zip python
+
+      - name: Upload layer zip
+        uses: actions/upload-artifact@v4
+        with:
+          name: pillow_layer_py3.9.zip
+          path: pillow_layer_py3.9.zip
